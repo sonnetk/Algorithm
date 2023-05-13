@@ -89,18 +89,18 @@ document.addEventListener('DOMContentLoaded', function () {
         // и расположение порта на узле, а также логические аргументы "выход" и "вход"
         // управлять тем, может ли пользователь рисовать ссылки из или в порт.
         function makePort(name, spot, output, input) {
-            // the port is basically just a small transparent circle
+            // порт в основном просто маленький прозрачный круг
             return $(go.Shape, "Circle",
                 {
-                    fill: null,  // not seen, by default; set to a translucent gray by showSmallPorts, defined below
+                    fill: null,  //по умолчанию не виден; установите полупрозрачный серый цвет с помощью showSmallPorts, как указано ниже
                     stroke: null,
                     desiredSize: new go.Size(7, 7),
-                    alignment: spot,  // align the port on the main Shape
-                    alignmentFocus: spot,  // just inside the Shape
-                    portId: name,  // declare this object to be a "port"
-                    fromSpot: spot, toSpot: spot,  // declare where links may connect at this port
-                    fromLinkable: output, toLinkable: input,  // declare whether the user may draw links to/from here
-                    cursor: "pointer"  // show a different cursor to indicate potential link point
+                    alignment: spot,  //выровняйте порт на основной форме
+                    alignmentFocus: spot,  // только внутри формы
+                    portId: name,  // объявить этот объект "портом"
+                    fromSpot: spot, toSpot: spot,  //объявить, где ссылки могут подключаться к этому порту
+                    fromLinkable: output, toLinkable: input,  //объявить, может ли пользователь делать ссылки сюда/отсюда
+                    cursor: "pointer"  // показать другой курсор, чтобы указать потенциальную точку ссылки
                 });
         }
 
@@ -141,15 +141,15 @@ document.addEventListener('DOMContentLoaded', function () {
                 { resizable: true, resizeObjectName: "PANEL", resizeAdornmentTemplate: nodeResizeAdornmentTemplate },
                 { rotatable: true, rotateAdornmentTemplate: nodeRotateAdornmentTemplate },
                 new go.Binding("angle").makeTwoWay(),
-                // the main object is a Panel that surrounds a TextBlock with a Shape
+                // основной объект - это панель, которая окружает TextBlock с формой
                 $(go.Panel, "Auto",
                     { name: "PANEL" },
                     new go.Binding("desiredSize", "size", go.Size.parse).makeTwoWay(go.Size.stringify),
-                    $(go.Shape, "Rectangle",  // default figure
+                    $(go.Shape, "Rectangle",  //фигура по умолчанию
                         {
-                            portId: "", // the default port: if no spot on link data, use closest side
+                            portId: "", // порт по умолчанию: если нет точки на данных ссылки, используйте ближайшую сторону
                             fromLinkable: true, toLinkable: true, cursor: "pointer",
-                            fill: "white",  // default color
+                            fill: "white",  // цвет по умолчанию
                             strokeWidth: 2
                         },
                         new go.Binding("figure"),
