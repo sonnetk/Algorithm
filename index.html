@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Algorithm Editor</title>
+    <link href="index.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- файлы для ACE-->
+    <script src="ace.js"></script>
+    <script src="mode-pascal.js"></script>
+    <!-- мой файл для ACE-->
+    <script src="editor.js"></script>
+    <!-- файлы для GoJS-->
+    <script src="https://unpkg.com/gojs@2.3.6/release/go.js"></script>
+    <script src="https://unpkg.com/gojs@2.3.6/extensions/Figures.js"></script>
+    <!-- мой файл для GoJS-->
+    <script src="script.js"></script>
+</head>
+<body>
+<header>
+    <nav>
+        <ul>
+            <li><a>тренажер</a></li>
+        </ul>
+    </nav>
+</header>
+<main>
+    <div id="allSampleContent">
+        <div id="sample">
+            <div id="container">
+                <div id="myPaletteDiv">
+                    <canvas tabindex="0" width="206" height="3236">
+                        This text is displayed if your browser does not support the Canvas HTML element.
+                    </canvas>
+                    <div><div></div></div>
+                </div>
+                <div id="myDiagramDiv">
+                    <canvas tabindex="0" width="2072" height="3236">
+                        This text is displayed if your browser does not support the Canvas HTML element.
+                    </canvas>
+                    <div><div></div></div>
+                </div>
+            </div>
+            <div class="block">
+                <textarea id="mySavedModel">
+                   { "class": "go.GraphLinksModel",
+                   "linkFromPortIdProperty": "fromPort",
+                   "linkToPortIdProperty": "toPort",
+                   "nodeDataArray": [
+                   ],
+                   "linkDataArray": [
+                   ]}
+                </textarea>
+            </div>
+        </div>
+    </div>
+    <div id="action">
+        <div id="pascal">
+            <p>программный код — Pascal</p>
+            <div id="code">
+                <div class="editor">
+                    <div class="editor__wrapper">
+                        <div class="editor__body">
+                            <div id="editorCode" class="editor__code"></div>
+                        </div>
+                        <div class="editor__footer">
+                            <div class="editor__footer--left">
+                                <button class="editor__bnt editor__run">Run</button>
+                                <button class="editor__bnt editor__reset">Reset</button>
+                            </div>
+                            <div class="editor__footer--right">
+                                <div class="editor__console">
+                                    <ul class="editor__console-logs"></ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button id="toCode">преобразовать в код</button>
+    </div>
+</main>
+</body>
+</html>

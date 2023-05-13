@@ -1,0 +1,169 @@
+@font-face {
+    font-weight: 700;
+    font-family: "Inter-Bold";
+    src: url("fonts/Inter-Bold.ttf");
+}
+
+@font-face {
+    font-weight: 700;
+    font-family: "Inter-Bold";
+    src: url("fonts/Inter-Bold.ttf");
+}
+
+
+body{
+    margin: 0;
+}
+
+header{
+    background: #B8C6F6;
+    width: 100%;
+    height: 80px;
+    z-index: 4;
+    position: fixed;
+    font-size: 20px;
+    font-family: "Inter-Bold";
+    box-shadow: 0 0 4px rgba(0,0,0,0.5);
+}
+
+nav {
+    margin-top: 24px;
+}
+
+nav ul{
+    margin: 0;
+    list-style-type: none;
+}
+nav ul li{
+    display: inline;
+    margin-right: 40px;
+    color: #FFFFFF;
+}
+
+#container{
+    width: 100%;
+    display: flex;
+    justify-content: space-between
+}
+
+#myPaletteDiv{
+    width: 200px;
+    margin-right: 2px;
+    border: 4px solid #B8C6F6;
+    position: relative;
+    cursor: auto;
+    background-color: #EAEEFC;
+    direction: rtl;
+}
+
+#myPaletteDiv canvas{
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    z-index: 2;
+    touch-action: none;
+    width: 103px;
+    height: 100vh;
+    cursor: auto;
+}
+
+#myDiagramDiv{
+    flex-grow: 1;
+    height: 100vh;
+    position: relative;
+    cursor: auto;
+}
+
+#myDiagramDiv canvas{
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    z-index: 2;
+    touch-action: none;
+    width: 1036px;
+    height: 100vh;
+    cursor: auto;
+}
+
+#myPaletteDiv div, #myDiagramDiv div{
+    position: absolute;
+    overflow: auto;
+    width: 103px;
+    height: 100vh;
+    z-index: 1;
+}
+
+#myPaletteDiv div div, #myDiagramDiv div div {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+}
+
+.block{
+    display: none;
+}
+
+#mySavedModel{
+    width:100%;
+    height:1px
+}
+
+#action{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+button{
+    font-family: "Inter-Bold";
+    background: rgba(184, 198, 246, 0.3);
+    border: 3px solid #B8C6F6;
+    border-radius: 40px;
+    font-size: 16px;
+    color: #2E4FC0;
+    padding: 12px 32px;
+}
+
+#toCode{
+    position: absolute;
+    bottom: 4%;
+    left: 42%;
+    z-index: 3;
+}
+
+#pascal{
+    position: absolute;
+    top: 11%;
+    right: 4%;
+    z-index: 3;
+    font-family: "Inter-Bold";
+}
+
+p{
+    text-align: center;
+    color: #9eaeea;
+}
+
+#code{
+    width: 300px;
+    height: 600px;
+
+    background: #FFFFFF;
+    border: 5px solid #B8C6F6;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 40px;
+}
+
+#textCode{
+    color: #2E4FC0;
+}
+
+#textCompil{
+    color: #B8C6F6;
+}
+
+#toCompil{
+}
+
