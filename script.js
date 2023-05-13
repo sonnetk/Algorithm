@@ -42,10 +42,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function init() {
 
-        const $ = go.GraphObject.make;  // for conciseness in defining templates
+        const $ = go.GraphObject.make;  // для краткости в определении шаблонов
 
         myDiagram =
-            $(go.Diagram, "myDiagramDiv",  // must name or refer to the DIV HTML element
+            $(go.Diagram, "myDiagramDiv",  // должен называть или ссылаться на HTML-элемент DIV
                 {
                     grid: $(go.Panel, "Grid",
                         $(go.Shape, "LineH", { stroke: "lightgray", strokeWidth: 0.5 }),
@@ -72,7 +72,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     "undoManager.isEnabled": true
                 });
 
-        // when the document is modified, add a "*" to the title and enable the "Save" button
+        //когда документ изменен, добавьте «*» к заголовку и включите кнопку «Сохранить»
         myDiagram.addDiagramListener("Modified", e => {
             var button = document.getElementById("SaveButton");
             if (button) button.disabled = !myDiagram.isModified;
@@ -84,10 +84,10 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
 
-        // Define a function for creating a "port" that is normally transparent.
-        // The "name" is used as the GraphObject.portId, the "spot" is used to control how links connect
-        // and where the port is positioned on the node, and the boolean "output" and "input" arguments
-        // control whether the user can draw links from or to the port.
+        // Определяем функцию для создания "порта", который обычно прозрачен.
+        // «Имя» используется как GraphObject.portId, «место» используется для управления подключением ссылок
+        // и расположение порта на узле, а также логические аргументы "выход" и "вход"
+        // управлять тем, может ли пользователь рисовать ссылки из или в порт.
         function makePort(name, spot, output, input) {
             // the port is basically just a small transparent circle
             return $(go.Shape, "Circle",
@@ -164,7 +164,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         },
                         new go.Binding("text").makeTwoWay())
                 ),
-                // four small named ports, one on each side:
+                // четыре небольших именованных порта, по одному с каждой стороны:
                 makePort("T", go.Spot.Top, false, true),
                 makePort("L", go.Spot.Left, true, true),
                 makePort("R", go.Spot.Right, true, true),
@@ -177,7 +177,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         function showSmallPorts(node, show) {
             node.ports.each(port => {
-                if (port.portId !== "") {  // don't change the default port, which is the big shape
+                if (port.portId !== "") { // не меняйте порт по умолчанию, это большая фигура
                     port.fill = show ? "rgba(0,0,0,.3)" : null;
                 }
             });
@@ -186,12 +186,12 @@ document.addEventListener('DOMContentLoaded', function () {
         var linkSelectionAdornmentTemplate =
             $(go.Adornment, "Link",
                 $(go.Shape,
-                    // isPanelMain declares that this Shape shares the Link.geometry
+                    // isPanelMain объявляет, что эта фигура разделяет  Link.geometry
                     { isPanelMain: true, fill: null, stroke: "deepskyblue", strokeWidth: 0 })  // use selection object's strokeWidth
             );
 
         myDiagram.linkTemplate =
-            $(go.Link,  // the whole link panel
+            $(go.Link,  // вся панель ссылок
                 { selectable: true, selectionAdornmentTemplate: linkSelectionAdornmentTemplate },
                 { relinkableFrom: true, relinkableTo: true, reshapable: true },
                 {
@@ -201,13 +201,13 @@ document.addEventListener('DOMContentLoaded', function () {
                     toShortLength: 4
                 },
                 new go.Binding("points").makeTwoWay(),
-                $(go.Shape,  // the link path shape
+                $(go.Shape,  // форма пути ссылки
                     { isPanelMain: true, strokeWidth: 2 }),
-                $(go.Shape,  // the arrowhead
+                $(go.Shape,  // наконечник стрелы
                     { toArrow: "Standard", stroke: null }),
                 $(go.Panel, "Auto",
                     new go.Binding("visible", "isSelected").ofObject(),
-                    $(go.Shape, "RoundedRectangle",  // the link shape
+                    $(go.Shape, "RoundedRectangle",  // форма ссылки
                         { fill: "#F8F8F8", stroke: null }),
                     $(go.TextBlock,
                         {
@@ -222,18 +222,18 @@ document.addEventListener('DOMContentLoaded', function () {
                 )
             );
 
-        load();  // load an initial diagram from some JSON text
+        load();  //загрузить исходную диаграмму из некоторого текста JSON
 
-        // initialize the Palette that is on the left side of the page
+        // инициализировать палитру, которая находится в левой части страницы
         myPalette =
-            $(go.Palette, "myPaletteDiv",  // must name or refer to the DIV HTML element
+            $(go.Palette, "myPaletteDiv",  //должен называть или ссылаться на HTML-элемент DIV
                 {
                     maxSelectionCount: 1,
-                    nodeTemplateMap: myDiagram.nodeTemplateMap,  // share the templates used by myDiagram
-                    linkTemplate: // simplify the link template, just in this Palette
+                    nodeTemplateMap: myDiagram.nodeTemplateMap,  // поделитесь шаблонами, используемыми myDiagram
+                    linkTemplate: // упростить шаблон ссылки, только в этой палитре
                         $(go.Link,
-                            { // because the GridLayout.alignment is Location and the nodes have locationSpot == Spot.Center,
-                                // to line up the Link in the same manner we have to pretend the Link has the same location spot
+                            { // потому что GridLayout.alignment is Location and the nodes (узлы) have locationSpot == Spot.Center,
+                                //чтобы выстроить ссылку таким же образом, мы должны притвориться, что ссылка находится в том же месте
                                 locationSpot: go.Spot.Center,
                                 selectionAdornmentTemplate:
                                     $(go.Adornment, "Link",
@@ -257,42 +257,40 @@ document.addEventListener('DOMContentLoaded', function () {
                                 { toArrow: "Standard", stroke: null })
                         ),
 
-                    model: new go.GraphLinksModel([  // specify the contents of the Palette
+                    model: new go.GraphLinksModel([  // указать содержимое палитры
                         { figure:"Spot", "size":"105 75", fill: "transparent"}, //спустить все элементы, чтобы скрыть надпись
-                        { key: "1", text: "Начало", figure: "Ellipse", "size":"105 50", fill: "#FFFFFF" },
-                        { key: "1", text: "Step", "size":"105 75" },
-                        { key: "1", text: "???", figure: "Diamond", "size":"105 75", fill: "#FFFFFF" },
-                        { key: "1", text: "???", figure: "Procedure", "size":"105 75", fill: "#FFFFFF" },
-                        { key: "1", text: "1", figure: "Ellipse", "size":"50 50", fill: "#FFFFFF" },
-                        { key: "1", text: "Comment", "size":"105 75", figure: "LoopLimit", fill: "#FFFFFF" },
-                        { key: "1", text: "Comment", "size":"105 75", figure: "LoopLimitPr", fill: "#FFFFFF" },
-                        { key: "1", text: "Start", figure: "Input", "size":"105 75", fill: "#FFFFFF" },
-                        { key: "1",text: "Конец", figure: "Ellipse", "size":"105 50", fill: "#FFFFFF" },
-                        { key: "1", text: "Start", figure: "HexagonPr", "size":"105 85", fill: "#FFFFFF"}
+                        { text: "Начало", figure: "Ellipse", "size":"105 50", fill: "#FFFFFF" },
+                        { text: "Step", "size":"105 75" },
+                        { text: "???", figure: "Diamond", "size":"105 75", fill: "#FFFFFF" },
+                        { text: "1", figure: "Ellipse", "size":"50 50", fill: "#FFFFFF" },
+                        { text: "Comment", "size":"105 75", figure: "LoopLimit", fill: "#FFFFFF" },
+                        { text: "Comment", "size":"105 75", figure: "LoopLimitPr", fill: "#FFFFFF" },
+                        { text: "Start", figure: "Input", "size":"105 75", fill: "#FFFFFF" },
+                        { text: "Конец", figure: "Ellipse", "size":"105 50", fill: "#FFFFFF" },
                     ], [
-                        // the Palette also has a disconnected Link, which the user can drag-and-drop
+                        // Палитра также имеет отключенную ссылку, которую пользователь может перетащить
                         { points: new go.List(/*go.Point*/).addAll([new go.Point(0, 0), new go.Point(30, 0), new go.Point(30, 40), new go.Point(60, 40)]) }
                     ])
                 });
     }
 
 
-    // Show the diagram's model in JSON format that the user may edit
+    // Показать модель диаграммы в формате JSON, которую пользователь может редактировать
     function save() {
-        saveDiagramProperties();  // do this first, before writing to JSON
+        saveDiagramProperties();  //сначала сделайте это, прежде чем писать в JSON
         document.getElementById("mySavedModel").value = myDiagram.model.toJson();
         myDiagram.isModified = false;
     }
     function load() {
         myDiagram.model = go.Model.fromJson(document.getElementById("mySavedModel").value);
-        loadDiagramProperties();  // do this after the Model.modelData has been brought into memory
+        loadDiagramProperties();  //сделайте это после того, как Model.modelData будет помещен в память
     }
 
     function saveDiagramProperties() {
         myDiagram.model.modelData.position = go.Point.stringify(myDiagram.position);
     }
     function loadDiagramProperties(e) {
-        // set Diagram.initialPosition, not Diagram.position, to handle initialization side-effects
+        // установите Diagram.initialPosition, а не Diagram.position, для обработки побочных эффектов инициализации
         var pos = myDiagram.model.modelData.position;
         if (pos) myDiagram.initialPosition = go.Point.parse(pos);
     }
