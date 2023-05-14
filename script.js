@@ -176,7 +176,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             font: "9pt helvetica, arial, sans-serif",
                             stroke: "black",
                             margin: 2,
-                            minSize: new go.Size(60, NaN),
+                            minSize: new go.Size(60, 40),
                             editable: true
                         },
                         new go.Binding("text").makeTwoWay())
