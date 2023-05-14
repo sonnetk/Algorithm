@@ -165,11 +165,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 $(go.Shape,  // форма пути ссылки
                     { isPanelMain: true, strokeWidth: 2, },),
                 $(go.Shape,  // наконечник стрелы
-                    { toArrow: "Standard", stroke: null }),
+                    { toArrow: "Standard", stroke: null}),
                 $(go.Panel, "Auto",
                     new go.Binding("fill", "isSelected").ofObject(), //видимость текста на стрелках, "fill" меняем на "visible"
                     $(go.Shape, "RoundedRectangle",  // форма ссылки
-                        { fill: "#F8F8F8", stroke: null }),
+                        { fill: "transparent", stroke: null}),
                     $(go.TextBlock,
                         {
                             textAlign: "center",
@@ -177,8 +177,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             stroke: "black",
                             margin: 2,
                             minSize: new go.Size(10, NaN),
-                            editable: true,
-                            segmentOffset: new go.Point(0, 12),
+                            editable: true
                         },
                         new go.Binding("text").makeTwoWay())
                 )
