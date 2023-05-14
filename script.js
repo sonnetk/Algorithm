@@ -2,16 +2,17 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function init() {
 
+        const go = window.go;
         const $ = go.GraphObject.make;  // для краткости в определении шаблонов
 
         myDiagram =
             $(go.Diagram, "myDiagramDiv",  // должен называть или ссылаться на HTML-элемент DIV
                 {
                     grid: $(go.Panel, "Grid",
-                        $(go.Shape, "LineH", { stroke: "lightgray", strokeWidth: 0.5 }),
-                        $(go.Shape, "LineH", { stroke: "gray", strokeWidth: 0.5, interval: 10 }),
-                        $(go.Shape, "LineV", { stroke: "lightgray", strokeWidth: 0.5 }),
-                        $(go.Shape, "LineV", { stroke: "gray", strokeWidth: 0.5, interval: 10 })
+                        $(go.Shape, "LineH", {stroke: "lightgray", strokeWidth: 0.5}),
+                        $(go.Shape, "LineH", {stroke: "gray", strokeWidth: 0.5, interval: 10}),
+                        $(go.Shape, "LineV", {stroke: "lightgray", strokeWidth: 0.5}),
+                        $(go.Shape, "LineV", {stroke: "gray", strokeWidth: 0.5, interval: 10})
                     ),
                     "draggingTool.dragsLink": true,
                     "draggingTool.isGridSnapEnabled": true,
@@ -20,11 +21,27 @@ document.addEventListener('DOMContentLoaded', function () {
                     "relinkingTool.isUnconnectedLinkValid": true,
                     "relinkingTool.portGravity": 20,
                     "relinkingTool.fromHandleArchetype":
-                        $(go.Shape, "Diamond", { segmentIndex: 0, cursor: "pointer", desiredSize: new go.Size(8, 8), fill: "tomato", stroke: "darkred" }),
+                        $(go.Shape, "Diamond", {
+                            segmentIndex: 0,
+                            cursor: "pointer",
+                            desiredSize: new go.Size(8, 8),
+                            fill: "tomato",
+                            stroke: "darkred"
+                        }),
                     "relinkingTool.toHandleArchetype":
-                        $(go.Shape, "Diamond", { segmentIndex: -1, cursor: "pointer", desiredSize: new go.Size(8, 8), fill: "darkred", stroke: "tomato" }),
+                        $(go.Shape, "Diamond", {
+                            segmentIndex: -1,
+                            cursor: "pointer",
+                            desiredSize: new go.Size(8, 8),
+                            fill: "darkred",
+                            stroke: "tomato"
+                        }),
                     "linkReshapingTool.handleArchetype":
-                        $(go.Shape, "Diamond", { desiredSize: new go.Size(7, 7), fill: "lightblue", stroke: "deepskyblue" }),
+                        $(go.Shape, "Diamond", {
+                            desiredSize: new go.Size(7, 7),
+                            fill: "lightblue",
+                            stroke: "deepskyblue"
+                        }),
                     "rotatingTool.handleAngle": 270,
                     "rotatingTool.handleDistance": 30,
                     "rotatingTool.snapAngleMultiple": 15,
@@ -66,44 +83,104 @@ document.addEventListener('DOMContentLoaded', function () {
 
         var nodeSelectionAdornmentTemplate =
             $(go.Adornment, "Auto",
-                $(go.Shape, { fill: null, stroke: "deepskyblue", strokeWidth: 1.5, strokeDashArray: [4, 2] }),
+                $(go.Shape, {fill: null, stroke: "deepskyblue", strokeWidth: 1.5, strokeDashArray: [4, 2]}),
                 $(go.Placeholder)
             );
 
         var nodeResizeAdornmentTemplate =
             $(go.Adornment, "Spot",
-                { locationSpot: go.Spot.Right },
+                {locationSpot: go.Spot.Right},
                 $(go.Placeholder),
-                $(go.Shape, { alignment: go.Spot.TopLeft, cursor: "nw-resize", desiredSize: new go.Size(6, 6), fill: "lightblue", stroke: "deepskyblue" }),
-                $(go.Shape, { alignment: go.Spot.Top, cursor: "n-resize", desiredSize: new go.Size(6, 6), fill: "lightblue", stroke: "deepskyblue" }),
-                $(go.Shape, { alignment: go.Spot.TopRight, cursor: "ne-resize", desiredSize: new go.Size(6, 6), fill: "lightblue", stroke: "deepskyblue" }),
+                $(go.Shape, {
+                    alignment: go.Spot.TopLeft,
+                    cursor: "nw-resize",
+                    desiredSize: new go.Size(6, 6),
+                    fill: "lightblue",
+                    stroke: "deepskyblue"
+                }),
+                $(go.Shape, {
+                    alignment: go.Spot.Top,
+                    cursor: "n-resize",
+                    desiredSize: new go.Size(6, 6),
+                    fill: "lightblue",
+                    stroke: "deepskyblue"
+                }),
+                $(go.Shape, {
+                    alignment: go.Spot.TopRight,
+                    cursor: "ne-resize",
+                    desiredSize: new go.Size(6, 6),
+                    fill: "lightblue",
+                    stroke: "deepskyblue"
+                }),
 
-                $(go.Shape, { alignment: go.Spot.Left, cursor: "w-resize", desiredSize: new go.Size(6, 6), fill: "lightblue", stroke: "deepskyblue" }),
-                $(go.Shape, { alignment: go.Spot.Right, cursor: "e-resize", desiredSize: new go.Size(6, 6), fill: "lightblue", stroke: "deepskyblue" }),
+                $(go.Shape, {
+                    alignment: go.Spot.Left,
+                    cursor: "w-resize",
+                    desiredSize: new go.Size(6, 6),
+                    fill: "lightblue",
+                    stroke: "deepskyblue"
+                }),
+                $(go.Shape, {
+                    alignment: go.Spot.Right,
+                    cursor: "e-resize",
+                    desiredSize: new go.Size(6, 6),
+                    fill: "lightblue",
+                    stroke: "deepskyblue"
+                }),
 
-                $(go.Shape, { alignment: go.Spot.BottomLeft, cursor: "se-resize", desiredSize: new go.Size(6, 6), fill: "lightblue", stroke: "deepskyblue" }),
-                $(go.Shape, { alignment: go.Spot.Bottom, cursor: "s-resize", desiredSize: new go.Size(6, 6), fill: "lightblue", stroke: "deepskyblue" }),
-                $(go.Shape, { alignment: go.Spot.BottomRight, cursor: "sw-resize", desiredSize: new go.Size(6, 6), fill: "lightblue", stroke: "deepskyblue" })
+                $(go.Shape, {
+                    alignment: go.Spot.BottomLeft,
+                    cursor: "se-resize",
+                    desiredSize: new go.Size(6, 6),
+                    fill: "lightblue",
+                    stroke: "deepskyblue"
+                }),
+                $(go.Shape, {
+                    alignment: go.Spot.Bottom,
+                    cursor: "s-resize",
+                    desiredSize: new go.Size(6, 6),
+                    fill: "lightblue",
+                    stroke: "deepskyblue"
+                }),
+                $(go.Shape, {
+                    alignment: go.Spot.BottomRight,
+                    cursor: "sw-resize",
+                    desiredSize: new go.Size(6, 6),
+                    fill: "lightblue",
+                    stroke: "deepskyblue"
+                })
             );
 
         var nodeRotateAdornmentTemplate =
             $(go.Adornment,
-                { locationSpot: go.Spot.Center, locationObjectName: "ELLIPSE" },
-                $(go.Shape, "Ellipse", { name: "ELLIPSE", cursor: "pointer", desiredSize: new go.Size(7, 7), fill: "lightblue", stroke: "deepskyblue" }),
-                $(go.Shape, { geometryString: "M3.5 7 L3.5 30", isGeometryPositioned: true, stroke: "deepskyblue", strokeWidth: 1.5, strokeDashArray: [4, 2] })
+                {locationSpot: go.Spot.Center, locationObjectName: "ELLIPSE"},
+                $(go.Shape, "Ellipse", {
+                    name: "ELLIPSE",
+                    cursor: "pointer",
+                    desiredSize: new go.Size(7, 7),
+                    fill: "lightblue",
+                    stroke: "deepskyblue"
+                }),
+                $(go.Shape, {
+                    geometryString: "M3.5 7 L3.5 30",
+                    isGeometryPositioned: true,
+                    stroke: "deepskyblue",
+                    strokeWidth: 1.5,
+                    strokeDashArray: [4, 2]
+                })
             );
 
         myDiagram.nodeTemplate =
             $(go.Node, "Spot",
-                { locationSpot: go.Spot.Center },
+                {locationSpot: go.Spot.Center},
                 new go.Binding("location", "loc", go.Point.parse).makeTwoWay(go.Point.stringify),
-                { selectable: true, selectionAdornmentTemplate: nodeSelectionAdornmentTemplate },
-                { resizable: false, resizeObjectName: "PANEL", resizeAdornmentTemplate: nodeResizeAdornmentTemplate },
-                { rotatable: false, rotateAdornmentTemplate: nodeRotateAdornmentTemplate },
+                {selectable: true, selectionAdornmentTemplate: nodeSelectionAdornmentTemplate},
+                {resizable: false, resizeObjectName: "PANEL", resizeAdornmentTemplate: nodeResizeAdornmentTemplate},
+                {rotatable: false, rotateAdornmentTemplate: nodeRotateAdornmentTemplate},
                 new go.Binding("angle").makeTwoWay(),
                 // основной объект - это панель, которая окружает TextBlock с формой
                 $(go.Panel, "Auto",
-                    { name: "PANEL" },
+                    {name: "PANEL"},
                     new go.Binding("desiredSize", "size", go.Size.parse).makeTwoWay(go.Size.stringify),
                     $(go.Shape, "Rectangle",  //фигура по умолчанию
                         {
@@ -148,13 +225,13 @@ document.addEventListener('DOMContentLoaded', function () {
             $(go.Adornment, "Link",
                 $(go.Shape,
                     // isPanelMain объявляет, что эта фигура разделяет  Link.geometry
-                    { isPanelMain: true, fill: null, stroke: "deepskyblue", strokeWidth: 0 })  // use selection object's strokeWidth
+                    {isPanelMain: true, fill: null, stroke: "deepskyblue", strokeWidth: 0})  // use selection object's strokeWidth
             );
 
         myDiagram.linkTemplate =
             $(go.Link,  // вся панель ссылок
-                { selectable: true, selectionAdornmentTemplate: linkSelectionAdornmentTemplate },
-                { relinkableFrom: true, relinkableTo: true, reshapable: true },
+                {selectable: true, selectionAdornmentTemplate: linkSelectionAdornmentTemplate},
+                {relinkableFrom: true, relinkableTo: true, reshapable: true},
                 {
                     routing: go.Link.AvoidsNodes,
                     curve: go.Link.JumpOver,
@@ -163,13 +240,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 },
                 new go.Binding("points").makeTwoWay(),
                 $(go.Shape,  // форма пути ссылки
-                    { isPanelMain: true, strokeWidth: 2, },),
+                    {isPanelMain: true, strokeWidth: 2,},),
                 $(go.Shape,  // наконечник стрелы
-                    { toArrow: "Standard", stroke: null}),
+                    {toArrow: "Standard", stroke: null}),
                 $(go.Panel, "Auto",
                     new go.Binding("fill", "isSelected").ofObject(), //видимость текста на стрелках, "fill" меняем на "visible"
                     $(go.Shape, "RoundedRectangle",  // форма ссылки
-                        { fill: "transparent", stroke: null}),
+                        {fill: "transparent", stroke: null}),
                     $(go.TextBlock,
                         {
                             textAlign: "end",
@@ -198,11 +275,11 @@ document.addEventListener('DOMContentLoaded', function () {
                                 locationSpot: go.Spot.Center,
                                 selectionAdornmentTemplate:
                                     $(go.Adornment, "Link",
-                                        { locationSpot: go.Spot.Center },
+                                        {locationSpot: go.Spot.Center},
                                         $(go.Shape,
-                                            { isPanelMain: true, fill: null, stroke: "deepskyblue", strokeWidth: 0 }),
+                                            {isPanelMain: true, fill: null, stroke: "deepskyblue", strokeWidth: 0}),
                                         $(go.Shape,  // наконечник стрелы
-                                            { toArrow: "Standard", stroke: null })
+                                            {toArrow: "Standard", stroke: null})
                                     )
                             },
                             {
@@ -213,25 +290,25 @@ document.addEventListener('DOMContentLoaded', function () {
                             },
                             new go.Binding("points"),
                             $(go.Shape,  // the link path shape
-                                { isPanelMain: true, strokeWidth: 2 }),
+                                {isPanelMain: true, strokeWidth: 2}),
                             $(go.Shape,  // the arrowhead
-                                { toArrow: "Standard", stroke: null }),
+                                {toArrow: "Standard", stroke: null}),
                         ),
 
                     model: new go.GraphLinksModel([  // указать содержимое палитры
-                        { figure:"Spot", "size":"105 75", fill: "transparent"}, //спустить все элементы, чтобы скрыть надпись
-                        { text: "Начало", figure: "Start", "size":"150 60", fill: "#FFFFFF"},
-                        { text: "Действие", figure: "Action", "size":"150 100", fill: "#FFFFFF" },
-                        { text: "Условие", figure: "Сondition", "size":"150 100", fill: "#FFFFFF" },
-                        { text: "Начало цикла", figure: "LoopStart", "size":"150 100",  fill: "#FFFFFF" },
-                        { text: "Конец цикла", figure: "LoopEnd", "size":"150 100",  fill: "#FFFFFF" },
-                        { text: "Ввод", figure: "Input", "size":"150 100", fill: "#FFFFFF" },
-                        { text: "Вывод", figure: "Output", "size":"150 100", fill: "#FFFFFF" },
-                        { text: "Конец", figure: "End", "size":"150 60", fill: "#FFFFFF" },
-                        { text: "1", figure: "Ellipse", "size":"60 60", fill: "#FFFFFF" }
+                        {figure: "Spot", "size": "105 75", fill: "transparent"}, //спустить все элементы, чтобы скрыть надпись
+                        {text: "Начало", figure: "Start", "size": "150 60", fill: "#FFFFFF"},
+                        {text: "Действие", figure: "Action", "size": "150 100", fill: "#FFFFFF"},
+                        {text: "Условие", figure: "Сondition", "size": "150 100", fill: "#FFFFFF"},
+                        {text: "Начало цикла", figure: "LoopStart", "size": "150 100", fill: "#FFFFFF"},
+                        {text: "Конец цикла", figure: "LoopEnd", "size": "150 100", fill: "#FFFFFF"},
+                        {text: "Ввод", figure: "Input", "size": "150 100", fill: "#FFFFFF"},
+                        {text: "Вывод", figure: "Output", "size": "150 100", fill: "#FFFFFF"},
+                        {text: "Конец", figure: "End", "size": "150 60", fill: "#FFFFFF"},
+                        {text: "1", figure: "Ellipse", "size": "60 60", fill: "#FFFFFF"}
                     ], [
                         // Палитра также имеет отключенную ссылку, которую пользователь может перетащить
-                        { points: new go.List(/*go.Point*/).addAll([new go.Point(0, 0), new go.Point(30, 0), new go.Point(30, 40), new go.Point(60, 40)]) }
+                        {points: new go.List(/*go.Point*/).addAll([new go.Point(0, 0), new go.Point(30, 0), new go.Point(30, 40), new go.Point(60, 40)])}
                     ],)
                 });
     }
@@ -243,6 +320,7 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById("mySavedModel").value = myDiagram.model.toJson();
         myDiagram.isModified = false;
     }
+
     function load() {
         myDiagram.model = go.Model.fromJson(document.getElementById("mySavedModel").value);
         loadDiagramProperties();  //сделайте это после того, как Model.modelData будет помещен в память
@@ -251,11 +329,13 @@ document.addEventListener('DOMContentLoaded', function () {
     function saveDiagramProperties() {
         myDiagram.model.modelData.position = go.Point.stringify(myDiagram.position);
     }
+
     function loadDiagramProperties(e) {
         // установите Diagram.initialPosition, а не Diagram.position, для обработки побочных эффектов инициализации
         var pos = myDiagram.model.modelData.position;
         if (pos) myDiagram.initialPosition = go.Point.parse(pos);
     }
+
     window.addEventListener('DOMContentLoaded', init);
 
 }, false);
