@@ -172,11 +172,11 @@ document.addEventListener('DOMContentLoaded', function () {
                         { fill: "transparent", stroke: null}),
                     $(go.TextBlock,
                         {
-                            textAlign: "center",
+                            textAlign: "end",
                             font: "9pt helvetica, arial, sans-serif",
                             stroke: "black",
                             margin: 2,
-                            minSize: new go.Size(10, NaN),
+                            minSize: new go.Size(60, NaN),
                             editable: true
                         },
                         new go.Binding("text").makeTwoWay())
