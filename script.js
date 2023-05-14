@@ -1,44 +1,4 @@
 document.addEventListener('DOMContentLoaded', function () {
-    go.Shape.defineFigureGenerator("LoopLimitPr", function(shape, w, h) {
-        var geo = new go.Geometry();
-        var fig = new go.PathFigure(0, 0, true);
-        geo.add(fig);
-
-        fig.add(new go.PathSegment(go.PathSegment.Line, w, 0));
-        fig.add(new go.PathSegment(go.PathSegment.Line, w, .75 * h));
-        fig.add(new go.PathSegment(go.PathSegment.Line, .75 * w, h));
-        fig.add(new go.PathSegment(go.PathSegment.Line, .25 * w, h));
-        fig.add(new go.PathSegment(go.PathSegment.Line, 0, .75 * h).close());
-
-        geo.spot1 = new go.Spot(0, 0);
-        geo.spot2 = go.Spot.BottomRight;
-        return geo;
-    });
-
-    go.Shape.defineFigureGenerator("HexagonPr", function(shape, w, h) {
-        var points = createPolygon(6);
-        var geo = new go.Geometry();
-        var fig = new go.PathFigure(points[0].y * w, points[0].x * h, true);
-        geo.add(fig);
-
-        for (var i = 1; i < 6; i++) {
-            fig.add(new go.PathSegment(go.PathSegment.Line, points[i].y * w, points[i].x * h));
-        }
-        fig.add(new go.PathSegment(go.PathSegment.Line, points[0].y * w, points[0].x * h).close());
-        freeArray(points);
-        geo.spot1 = new go.Spot(.07, .25);
-        geo.spot2 = new go.Spot(.90, .75);
-        return geo;
-    });
-
-    go.Shape.defineFigureGenerator("Spot", function(shape, w, h) {
-        var geo = new go.Geometry();
-        var fig = new go.PathFigure(0, 0, true);
-        geo.add(fig);
-
-        fig.add(new go.PathSegment(go.PathSegment.Line, 0, 0).close());
-        return geo;
-    });
 
     function init() {
 
@@ -138,8 +98,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 { locationSpot: go.Spot.Center },
                 new go.Binding("location", "loc", go.Point.parse).makeTwoWay(go.Point.stringify),
                 { selectable: true, selectionAdornmentTemplate: nodeSelectionAdornmentTemplate },
-                { resizable: true, resizeObjectName: "PANEL", resizeAdornmentTemplate: nodeResizeAdornmentTemplate },
-                { rotatable: true, rotateAdornmentTemplate: nodeRotateAdornmentTemplate },
+                { resizable: false, resizeObjectName: "PANEL", resizeAdornmentTemplate: nodeResizeAdornmentTemplate },
+                { rotatable: false, rotateAdornmentTemplate: nodeRotateAdornmentTemplate },
                 new go.Binding("angle").makeTwoWay(),
                 // основной объект - это панель, которая окружает TextBlock с формой
                 $(go.Panel, "Auto",
@@ -154,6 +114,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         },
                         new go.Binding("figure"),
                         new go.Binding("fill")),
+
                     $(go.TextBlock,
                         {
                             font: "bold 10pt Helvetica, Arial, sans-serif",
@@ -202,21 +163,22 @@ document.addEventListener('DOMContentLoaded', function () {
                 },
                 new go.Binding("points").makeTwoWay(),
                 $(go.Shape,  // форма пути ссылки
-                    { isPanelMain: true, strokeWidth: 2 }),
+                    { isPanelMain: true, strokeWidth: 2, },),
                 $(go.Shape,  // наконечник стрелы
                     { toArrow: "Standard", stroke: null }),
                 $(go.Panel, "Auto",
-                    new go.Binding("visible", "isSelected").ofObject(),
+                    new go.Binding("fill", "isSelected").ofObject(), //видимость текста на стрелках, "fill" меняем на "visible"
                     $(go.Shape, "RoundedRectangle",  // форма ссылки
                         { fill: "#F8F8F8", stroke: null }),
                     $(go.TextBlock,
                         {
                             textAlign: "center",
-                            font: "10pt helvetica, arial, sans-serif",
-                            stroke: "#919191",
+                            font: "9pt helvetica, arial, sans-serif",
+                            stroke: "black",
                             margin: 2,
                             minSize: new go.Size(10, NaN),
-                            editable: true
+                            editable: true,
+                            segmentOffset: new go.Point(0, 12),
                         },
                         new go.Binding("text").makeTwoWay())
                 )
@@ -240,7 +202,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                         { locationSpot: go.Spot.Center },
                                         $(go.Shape,
                                             { isPanelMain: true, fill: null, stroke: "deepskyblue", strokeWidth: 0 }),
-                                        $(go.Shape,  // the arrowhead
+                                        $(go.Shape,  // наконечник стрелы
                                             { toArrow: "Standard", stroke: null })
                                     )
                             },
@@ -254,23 +216,24 @@ document.addEventListener('DOMContentLoaded', function () {
                             $(go.Shape,  // the link path shape
                                 { isPanelMain: true, strokeWidth: 2 }),
                             $(go.Shape,  // the arrowhead
-                                { toArrow: "Standard", stroke: null })
+                                { toArrow: "Standard", stroke: null }),
                         ),
 
                     model: new go.GraphLinksModel([  // указать содержимое палитры
                         { figure:"Spot", "size":"105 75", fill: "transparent"}, //спустить все элементы, чтобы скрыть надпись
-                        { text: "Начало", figure: "Ellipse", "size":"105 50", fill: "#FFFFFF" },
-                        { text: "Step", "size":"105 75" },
-                        { text: "???", figure: "Diamond", "size":"105 75", fill: "#FFFFFF" },
-                        { text: "1", figure: "Ellipse", "size":"50 50", fill: "#FFFFFF" },
-                        { text: "Comment", "size":"105 75", figure: "LoopLimit", fill: "#FFFFFF" },
-                        { text: "Comment", "size":"105 75", figure: "LoopLimitPr", fill: "#FFFFFF" },
-                        { text: "Start", figure: "Input", "size":"105 75", fill: "#FFFFFF" },
-                        { text: "Конец", figure: "Ellipse", "size":"105 50", fill: "#FFFFFF" },
+                        { text: "Начало", figure: "Start", "size":"150 60", fill: "#FFFFFF"},
+                        { text: "Действие", figure: "Action", "size":"150 100", fill: "#FFFFFF" },
+                        { text: "Условие", figure: "Сondition", "size":"150 100", fill: "#FFFFFF" },
+                        { text: "Начало цикла", figure: "LoopStart", "size":"150 100",  fill: "#FFFFFF" },
+                        { text: "Конец цикла", figure: "LoopEnd", "size":"150 100",  fill: "#FFFFFF" },
+                        { text: "Ввод", figure: "Input", "size":"150 100", fill: "#FFFFFF" },
+                        { text: "Вывод", figure: "Output", "size":"150 100", fill: "#FFFFFF" },
+                        { text: "Конец", figure: "End", "size":"150 60", fill: "#FFFFFF" },
+                        { text: "1", figure: "Ellipse", "size":"60 60", fill: "#FFFFFF" }
                     ], [
                         // Палитра также имеет отключенную ссылку, которую пользователь может перетащить
                         { points: new go.List(/*go.Point*/).addAll([new go.Point(0, 0), new go.Point(30, 0), new go.Point(30, 40), new go.Point(60, 40)]) }
-                    ])
+                    ],)
                 });
     }
 
