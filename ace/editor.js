@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 // Setup Ace
     let codeEditor = ace.edit("editorCode");
+    codeEditor.getSession().setUseWorker(false);
     let defaultCode = 'program HelloWorld; \n\n' +
         'begin \n' +
         'writeln(\'Hello World!\' ); \n' +
@@ -12,22 +13,28 @@ document.addEventListener('DOMContentLoaded', function () {
     let editorLib = {
         init() {
             // Configure Ace
+            codeEditor.getSession().setUseWrapMode(true);
+            codeEditor.getSession().setWrapLimitRange(null, null);
+
+            // Theme
+            codeEditor.setTheme("ace/theme/eclipse");
 
             // Set language
-            codeEditor.session.setMode("mode-pascal.js");
+            codeEditor.session.setMode("ace/mode/pascal");
 
             // Set Options
             codeEditor.setOptions({
-                fontFamily: 'Inconsolata',
-                fontSize: '12pt',
                 enableBasicAutocompletion: true,
                 enableLiveAutocompletion: true,
             });
 
             // Set Default Code
             codeEditor.setValue(defaultCode);
+
         }
     }
+
+
 
 // Events
     executeCodeBtn.addEventListener('click', () => {
