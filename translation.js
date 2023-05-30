@@ -9,14 +9,28 @@ document.addEventListener('DOMContentLoaded', () => {
         let pascal_code
 
         shape = shapes.find(item => item.figure === 'Start')
-        pascal_code = 'begin<br>'
+        if (!shape) return
+
+        pascal_code = `begin
+`
 
         link = links.find(item => item.from === shape.key)
         shape = shapes.find(item => item.key === link.to)
 
         while (true) {
             if (shape.figure === 'Action') {
-                pascal_code += shape.text.replace('=', ':=') + ';<br>'
+                pascal_code += `${shape.text.replace('=', ':=')};
+`
+            }
+
+            if (shape.figure === 'Input') {
+                pascal_code += `readln(${shape.text});
+`
+            }
+
+            if (shape.figure === 'Output') {
+                pascal_code += `writeln(${shape.text});
+`
             }
 
             if (shape.figure === 'End') {
@@ -31,6 +45,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!shape) break
         }
 
-        document.getElementById('editorCode').innerHTML = pascal_code
+        ace.edit('editorCode').setValue(pascal_code)
     })
 })
