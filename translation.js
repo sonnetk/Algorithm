@@ -4,20 +4,17 @@ document.addEventListener('DOMContentLoaded', () => {
         const shapes = model.nodeDataArray
         const links = model.linkDataArray
 
-        let shape
-        let link
-        let pascal_code
+        let pascal_code = ''
 
-        shape = shapes.find(item => item.figure === 'Start')
+        let shape = shapes.find(item => item.figure === 'Start');
         if (!shape) return
 
-        pascal_code = `begin
+        do {
+            if (shape.figure === 'Start') {
+                pascal_code += `begin
 `
+            }
 
-        link = links.find(item => item.from === shape.key)
-        shape = shapes.find(item => item.key === link.to)
-
-        while (true) {
             if (shape.figure === 'Action') {
                 pascal_code += `${shape.text.replace('=', ':=')};
 `
@@ -50,20 +47,15 @@ begin
             }
 
             if (shape.figure === 'Ref') {
-                const second_ref = shapes.find(item => item.text === shape.text && item.key !== shape.key)
-                if (!second_ref) break
-
-                link = links.find(item => item.from === second_ref.key)
-                if (!link) break
-
-            } else {
-                link = links.find(item => item.from === shape.key)
-                if (!link) break
+                shape = shapes.find(item => item.text === shape.text && item.key !== shape.key)
+                if (!shape) break
             }
 
+            const link = links.find(item => item.from === shape.key)
+            if (!link) break
+
             shape = shapes.find(item => item.key === link.to)
-            if (!shape) break
-        }
+        } while (shape)
 
         ace.edit('editorCode').setValue(pascal_code)
     })
