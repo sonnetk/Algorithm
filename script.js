@@ -329,7 +329,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         {text: "Ввод", figure: "Input", "size": "150 100", fill: "#FFFFFF"},
                         {text: "Вывод", figure: "Output", "size": "150 100", fill: "#FFFFFF"},
                         {text: "Конец", figure: "End", "size": "150 60", fill: "#FFFFFF"},
-                        {text: "1", figure: "Ellipse", "size": "60 60", fill: "#FFFFFF"},
+                        {text: "1", figure: "Ref", "size": "60 60", fill: "#FFFFFF"},
                         // {"category":"End"}
                     ], [
                         // Палитра также имеет отключенную ссылку, которую пользователь может перетащить

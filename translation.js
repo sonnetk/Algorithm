@@ -33,13 +33,33 @@ document.addEventListener('DOMContentLoaded', () => {
 `
             }
 
+            if (shape.figure === 'LoopStart') {
+                pascal_code += `for ${shape.text.replace('=', ':=').replace(',', ' to')} do
+begin
+`
+            }
+
+            if (shape.figure === 'LoopEnd') {
+                pascal_code += `end;
+`
+            }
+
             if (shape.figure === 'End') {
-                pascal_code += 'end.'
+                pascal_code += `end.`
                 break
             }
 
-            link = links.find(item => item.from === shape.key)
-            if (!link) break
+            if (shape.figure === 'Ref') {
+                const second_ref = shapes.find(item => item.text === shape.text && item.key !== shape.key)
+                if (!second_ref) break
+
+                link = links.find(item => item.from === second_ref.key)
+                if (!link) break
+
+            } else {
+                link = links.find(item => item.from === shape.key)
+                if (!link) break
+            }
 
             shape = shapes.find(item => item.key === link.to)
             if (!shape) break

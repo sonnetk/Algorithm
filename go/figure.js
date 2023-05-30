@@ -137,7 +137,7 @@ document.addEventListener('DOMContentLoaded', function () {
         return geo;
     });
 
-    go.Shape.defineFigureGenerator("Ellipse", function(shape, w, h) {  // predefined in 2.0
+    go.Shape.defineFigureGenerator("Ref", function(shape, w, h) {  // predefined in 2.0
         var geo = new go.Geometry(go.Geometry.Ellipse);
         geo.startX = 0;
         geo.startY = 0;
