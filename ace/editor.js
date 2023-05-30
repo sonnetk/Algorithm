@@ -6,7 +6,6 @@ document.addEventListener('DOMContentLoaded', function () {
     let codeEditor = ace.edit("editorCode");
     codeEditor.getSession().setUseWorker(false);
 
-
     let editorLib = {
         init() {
             // Configure Ace
@@ -21,14 +20,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
             // Set Options
             codeEditor.setOptions({
+                enableBasicAutocompletion: true,
                 enableLiveAutocompletion: true,
             });
 
-            // Set Default Code
-            codeEditor.setValue(defaultCode);
-
         }
     }
+
 
 
 // Events
@@ -44,5 +42,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
+    editorLib.init();
 
 }, false);
