@@ -127,6 +127,11 @@ button{
     padding: 12px 32px;
 }
 
+
+button:hover {
+    background: #B8C6F6;
+}
+
 #toCode{
     position: absolute;
     bottom: 4%;

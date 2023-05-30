@@ -5,10 +5,7 @@ document.addEventListener('DOMContentLoaded', function () {
 // Setup Ace
     let codeEditor = ace.edit("editorCode");
     codeEditor.getSession().setUseWorker(false);
-    let defaultCode = 'program HelloWorld; \n\n' +
-        'begin \n' +
-        'writeln(\'Hello World!\' ); \n' +
-        'end.';
+
 
     let editorLib = {
         init() {
@@ -24,7 +21,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
             // Set Options
             codeEditor.setOptions({
-                enableBasicAutocompletion: true,
                 enableLiveAutocompletion: true,
             });
 
@@ -33,7 +29,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
         }
     }
-
 
 
 // Events
@@ -49,11 +44,5 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    resetCodeBtn.addEventListener('click', () => {
-        // Clear ace editor
-        codeEditor.setValue(defaultCode);
-    })
-
-    editorLib.init();
 
 }, false);
