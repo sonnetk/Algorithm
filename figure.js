@@ -23,6 +23,7 @@ document.addEventListener('DOMContentLoaded', function () {
         return geo;
     });
 
+
     go.Shape.defineFigureGenerator("End", function(shape, w, h) {
         var geo = new go.Geometry();
         var fig = new go.PathFigure(.25 * w, 0, true);
