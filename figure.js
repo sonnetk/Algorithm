@@ -1,5 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
 
+    const go = window.go;
+
     go.Shape.defineFigureGenerator("Spot", function(shape, w, h) {
         var geo = new go.Geometry();
         var fig = new go.PathFigure(0, 0, true);

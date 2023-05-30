@@ -4,7 +4,7 @@
     <title>Algorithm Editor</title>
     <link href="index.css" rel="stylesheet">
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <!-- файлы для ACE-->
     <script src="ace.js"></script>
     <script src="mode-pascal.js"></script>
@@ -16,6 +16,7 @@
     <!-- мой файл для GoJS-->
     <script src="figure.js"></script>
     <script src="script.js"></script>
+    <script src="translation.js"></script>
 </head>
 <body>
 <header>
@@ -30,16 +31,20 @@
         <div id="sample">
             <div id="container">
                 <div id="myPaletteDiv">
-                    <canvas tabindex="0" width="206" height="3236">
+                    <canvas height="3236" tabindex="0" width="206">
                         This text is displayed if your browser does not support the Canvas HTML element.
                     </canvas>
-                    <div><div></div></div>
+                    <div>
+                        <div></div>
+                    </div>
                 </div>
                 <div id="myDiagramDiv">
-                    <canvas tabindex="0" width="2072" height="3236">
+                    <canvas height="3236" tabindex="0" width="2072">
                         This text is displayed if your browser does not support the Canvas HTML element.
                     </canvas>
-                    <div><div></div></div>
+                    <div>
+                        <div></div>
+                    </div>
                 </div>
             </div>
             <div class="block">
@@ -62,7 +67,7 @@
                 <div class="editor">
                     <div class="editor__wrapper">
                         <div class="editor__body">
-                            <div id="editorCode" class="editor__code"></div>
+                            <div class="editor__code" id="editorCode"></div>
                         </div>
                         <div class="editor__footer">
                             <div class="editor__footer--left">

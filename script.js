@@ -1,8 +1,8 @@
 document.addEventListener('DOMContentLoaded', function () {
 
-    function init() {
+    const go = window.go;
 
-        const go = window.go;
+    function init() {
         const $ = go.GraphObject.make;  // для краткости в определении шаблонов
 
         myDiagram =
@@ -266,6 +266,7 @@ document.addEventListener('DOMContentLoaded', function () {
         myPalette =
             $(go.Palette, "myPaletteDiv",  //должен называть или ссылаться на HTML-элемент DIV
                 {
+                    initialScale: 0.94,
                     maxSelectionCount: 1,
                     nodeTemplateMap: myDiagram.nodeTemplateMap,  // поделитесь шаблонами, используемыми myDiagram
                     linkTemplate: // упростить шаблон ссылки, только в этой палитре
