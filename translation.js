@@ -19,23 +19,23 @@ document.addEventListener('DOMContentLoaded', () => {
                 code += `for ${shape.text.replace('=', ':=').replace(',', ' to')} do\nbegin\n`
             } else if (shape.figure === 'LoopEnd') {
                 code += `end;\n`
-            } else if (shape.figure === 'Condition') {
-                code += `if ${shape.text} then\nbegin\n`
-            } else if (shape.figure === 'ConditionElse') {
-                code += `end;\nelse\nbegin\n`
-            } else if (shape.figure === 'ConditionEnd') {
-                code += `end;\n`
+            } else if (shape.figure === 'Сondition') {
+                code += `if ${shape.text.replace('или', 'or').replace('и', 'and')} then\n`
             } else if (shape.figure === 'End') {
                 code += `end.`
             }
             return code
         }
 
-        function NextShape(shape) {
+        function NextShape(shape, to_code) {
+            if (to_code) code += ShapeToCode(shape)
+
             if (shape.figure === 'Сondition') {
                 let next_shape
+                const closure_info = GetClosureInfo(shape)
+                const values = ['Да', 'Нет']
 
-                ['Да', 'Нет'].forEach(value => {
+                values.forEach(value => {
                     let link = links.filter(item => item.from === shape.key && item.text.toUpperCase() === value.toUpperCase())
                     if (link.length === 0) throw new Error(`Не обнаружен путь со значением "${value}"`)
                     if (link.length > 1) throw new Error(`Обнаружено несколько путей со значением "${value}" из одного условия`)
@@ -44,13 +44,19 @@ document.addEventListener('DOMContentLoaded', () => {
                     next_shape = shapes.find(item => item.key === link.to)
                     if (!next_shape) throw new Error('Не обнаружен блок "Конец"')
 
-                    while (next_shape.figure !== 'End') {
-                        code += ShapeToCode(next_shape)
-                        next_shape = NextShape(next_shape)
+                    if (to_code && value === 'Нет' && closure_info.false_shapes_count > 0) {
+                        code = code.slice(0, code.lastIndexOf(';')) + code.slice(code.lastIndexOf(';') + 1)
+                        code += 'else\n'
                     }
+                    if ((to_code && value === 'Да' && closure_info.true_shapes_count !== 1) ||
+                        (to_code && value === 'Нет' && closure_info.false_shapes_count > 1))
+                        code += 'begin\n'
 
-                    if (value === 'Да') code += ShapeToCode({figure: 'ConditionElse'})
-                    if (value === 'Нет') code += ShapeToCode({figure: 'ConditionEnd'})
+                    while (next_shape !== closure_info.shape) next_shape = NextShape(next_shape, to_code)
+
+                    if ((to_code && value === 'Да' && closure_info.true_shapes_count !== 1) ||
+                        (to_code && value === 'Нет' && closure_info.false_shapes_count > 1))
+                        code += 'end;\n'
                 })
 
                 return next_shape
@@ -74,16 +80,43 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
+        function GetClosureInfo(shape) {
+            let next_shape
+            let false_shapes_count = 0
+            const true_shapes = []
+            const values = ['Да', 'Нет']
+
+            values.forEach(value => {
+                let link = links.filter(item => item.from === shape.key && item.text.toUpperCase() === value.toUpperCase())
+                if (link.length === 0) throw new Error(`Не обнаружен путь со значением "${value}"`)
+                if (link.length > 1) throw new Error(`Обнаружено несколько путей со значением "${value}" из одного условия`)
+                link = link[0]
+
+                next_shape = shapes.find(item => item.key === link.to)
+                if (!next_shape) throw new Error('Не обнаружен блок "Конец"')
+
+                while (next_shape.figure !== 'End' && !true_shapes.includes(next_shape)) {
+                    if (value === 'Да') true_shapes.push(next_shape)
+                    if (value === 'Нет') false_shapes_count++
+                    next_shape = NextShape(next_shape, false)
+                }
+                true_shapes.push(next_shape)
+            })
+
+            return {
+                shape: next_shape,
+                true_shapes_count: true_shapes.indexOf(next_shape),
+                false_shapes_count: false_shapes_count,
+            }
+        }
+
         try {
             let start = shapes.filter(item => item.figure === 'Start')
             if (start.length === 0) throw new Error('Не найден блок "Начало"')
             if (start.length > 1) throw new Error('Обнаружены несколько блоков "Начало"')
             let shape = start[0]
 
-            while (shape.figure !== 'End') {
-                code += ShapeToCode(shape)
-                shape = NextShape(shape)
-            }
+            while (shape.figure !== 'End') shape = NextShape(shape, true)
 
             code += ShapeToCode(shape)
             ace.edit('editorCode').setValue(code)
