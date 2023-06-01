@@ -339,6 +339,9 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
 
+
+
+
     // Показать модель диаграммы в формате JSON, которую пользователь может редактировать
     function save() {
         saveDiagramProperties();  //сначала сделайте это, прежде чем писать в JSON
@@ -360,6 +363,7 @@ document.addEventListener('DOMContentLoaded', function () {
         var pos = myDiagram.model.modelData.position;
         if (pos) myDiagram.initialPosition = go.Point.parse(pos);
     }
+
 
     window.addEventListener('DOMContentLoaded', init);
 

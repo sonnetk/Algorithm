@@ -5,6 +5,8 @@
     <link href="index.css" rel="stylesheet">
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <script src="form.js"></script>
     <!-- файлы для ACE-->
     <script src="ace/src-min/ace.js"></script>
     <!-- мой файл для ACE-->
@@ -60,6 +62,21 @@
         </div>
     </div>
     <div id="action">
+        <div id="formVariables">
+            <form id = "parent" autocomplete="off" action="#">
+                <div class="form">
+                    <div>
+                        <label for="vName">Имя переменной:</label><br>
+                        <input type="text" id="vName" name="vName" placeholder="i"><br>
+                        <label for="vType">Тип переменной:</label><br>
+                        <div class="autocomplete">
+                            <input id="vType" type="text" name="vType" placeholder="integer">
+                        </div>
+                    </div>
+                    <button id="plus"> + </button>
+                </div>
+            </form>
+        </div>
         <div id="pascal">
             <p>программный код — Pascal</p>
             <div id="code">

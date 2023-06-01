@@ -45,4 +45,6 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
 
+    editorLib.init();
+
 }, false);
