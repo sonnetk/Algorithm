@@ -5,24 +5,21 @@ document.addEventListener('DOMContentLoaded', () => {
         const links = model.linkDataArray
         let code = ''
 
-        // try {
-            let start = shapes.filter(item => item.figure === 'Start')
-            if (start.length === 0) throw new Error('Не найден блок "Начало"')
-            if (start.length > 1) throw new Error('Обнаружены несколько блоков "Начало"')
-            let shape = start[0]
+        try {
+        let start = shapes.filter(item => item.figure === 'Start')
+        if (start.length === 0) throw new Error('Не найден блок "Начало"')
+        if (start.length > 1) throw new Error('Обнаружены несколько блоков "Начало"')
+        let shape = start[0]
 
-            CheckCicles(shape)
+        CheckLoops(shape)
 
-            while (shape.figure !== 'End') {
-                shape = NextShape(shape, true)
-            }
+        Translate(shape)
 
-            code += ShapeToCode(shape)
-            ace.edit('editorCode').setValue(code)
+        ace.edit('editorCode').setValue(code)
 
-        // } catch (error) {
-        //     alert(error.message);
-        // }
+        } catch (error) {
+            alert(error.message);
+        }
 
         function ShapeToCode(shape) {
             let code = ''
@@ -61,7 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const text = shape.text
                     .replace(' и ', ' and ')
                     .replace(' или ', ' or ')
-                code += `until ${text}\n`
+                code += `until ${text};\n`
             } else if (shape.figure === 'Сondition') {
                 const text = shape.text
                     .replace(' и ', ' and ')
@@ -78,68 +75,87 @@ document.addEventListener('DOMContentLoaded', () => {
             return code
         }
 
-        function NextShape(shape, to_code, to_passed) {
-            if (to_passed) shape.passed = true
-            if (to_code) code += ShapeToCode(shape)
+        function CheckLoops(shape) {
+            while (shape.figure !== 'End' && !shape.visited) {
+                const next_shape = NextShape(shape, 'check loops')
 
-            if (shape.flag === 'Until') {
-                let link = links.filter(item => item.from === shape.key && item.text?.toUpperCase() === 'ДА')
-                if (link.length === 0) throw new Error(`Не обнаружен путь со значением "Да"`)
-                if (link.length > 1) throw new Error(`Обнаружено несколько путей со значением "Да" из одного условия`)
-                link = link[0]
-
-                shape = shapes.find(item => item.key === link.to)
-                if (!shape) throw new Error('Не обнаружен блок "Конец"')
-
-                return shape
-            } else if (shape.flag === 'WhileEnd') {
-                let link = links.filter(item => item.from === shape.key && item.text?.toUpperCase() === 'НЕТ')
-                if (link.length === 0) throw new Error(`Не обнаружен путь со значением "Нет"`)
-                if (link.length > 1) throw new Error(`Обнаружено несколько путей со значением "Нет" из одного условия`)
-                link = link[0]
-
-                shape = shapes.find(item => item.key === link.to)
-                if (!shape) throw new Error('Не обнаружен блок "Конец"')
-
-                return shape
-            } else if (shape.figure === 'Сondition') {
-                let next_shape
-                let closure_info
-                const values = ['Да', 'Нет']
-
-                if (to_code) {
-                    closure_info = GetClosureInfo(shape)
-                } else {
-                    closure_info = {shape: shapes.find(item => item.figure === 'End')}
+                if (next_shape.visited && next_shape.flag !== 'Until') {
+                    throw new Error('Обнаружен неопределённый цикл')
                 }
 
-                values.forEach(value => {
-                    let link = links.filter(item => item.from === shape.key && item.text?.toUpperCase() === value.toUpperCase())
-                    if (link.length === 0) throw new Error(`Не обнаружен путь со значением "${value}"`)
-                    if (link.length > 1) throw new Error(`Обнаружено несколько путей со значением "${value}" из одного условия`)
-                    link = link[0]
+                shape = next_shape
+            }
+        }
 
-                    next_shape = shapes.find(item => item.key === link.to)
-                    if (!next_shape) throw new Error('Не обнаружен блок "Конец"')
+        function Translate(shape) {
+            while (shape.figure !== 'End') {
+                shape = NextShape(shape, 'to code')
+            }
+            code += ShapeToCode(shape)
+        }
 
-                    if (to_code && value === 'Нет' && closure_info.false_shapes_count > 0) {
-                        code = code.slice(0, code.lastIndexOf(';')) + code.slice(code.lastIndexOf(';') + 1)
-                        code += 'else\n'
-                    }
-                    if ((to_code && value === 'Да' && closure_info.true_shapes_count !== 1) ||
-                        (to_code && value === 'Нет' && closure_info.false_shapes_count > 1))
-                        code += 'begin\n'
+        function NextShape(shape, mode) {
+            let next_shape
 
-                    while (next_shape !== closure_info.shape && (!to_passed || !shape.passed)) {
-                        next_shape = NextShape(next_shape, to_code, to_passed)
-                    }
+            if (mode === 'check loops') shape.visited = true
+            if (mode === 'to code') code += ShapeToCode(shape)
 
-                    if ((to_code && value === 'Да' && closure_info.true_shapes_count !== 1) ||
-                        (to_code && value === 'Нет' && closure_info.false_shapes_count > 1))
-                        code += 'end;\n'
-                })
+            if (shape.flag === 'Until') {
+                let link = links.find(item => item.from === shape.key && item.text?.toUpperCase() === 'ДА')
+                next_shape = shapes.find(item => item.key === link.to)
 
                 return next_shape
+
+            } else if (shape.flag === 'WhileEnd') {
+                let link = links.find(item => item.from === shape.key)
+                next_shape = shapes.find(item => item.key === link.to)
+
+                link = links.find(item => item.from === next_shape.key && item.text?.toUpperCase() === 'НЕТ')
+                next_shape = shapes.find(item => item.key === link.to)
+
+                return next_shape
+
+            } else if (shape.figure === 'Сondition') {
+                const closure_info = GetClosureInfo(shape)
+
+                let true_link = links.filter(item => item.from === shape.key && item.text?.toUpperCase() === 'ДА')
+                if (true_link.length === 0) throw new Error('Не обнаружен путь со значением "Да"')
+                if (true_link.length > 1) throw new Error('Обнаружено несколько путей со значением "Да" из одного условия')
+                true_link = true_link[0]
+
+                next_shape = shapes.find(item => item.key === true_link.to)
+                if (!next_shape) throw new Error('Не обнаружен блок "Конец"')
+
+                if (mode === 'to code' && closure_info.true_shapes_count !== 1) code += 'begin\n'
+
+                while (next_shape !== closure_info.shape && next_shape.figure !== 'End') {
+                    next_shape = NextShape(next_shape, mode)
+                }
+
+                if (mode === 'to code' && closure_info.true_shapes_count !== 1) code += 'end;\n'
+
+                let false_link = links.filter(item => item.from === shape.key && item.text?.toUpperCase() === 'НЕТ')
+                if (false_link.length === 0) throw new Error('Не обнаружен путь со значением "Нет"')
+                if (false_link.length > 1) throw new Error('Обнаружено несколько путей со значением "Нет" из одного условия')
+                false_link = false_link[0]
+
+                next_shape = shapes.find(item => item.key === false_link.to)
+                if (!next_shape) throw new Error('Не обнаружен блок "Конец"')
+
+                if (mode === 'to code' && closure_info.false_shapes_count > 0) {
+                    code = code.slice(0, code.lastIndexOf(';')) + code.slice(code.lastIndexOf(';') + 1)
+                    code += 'else\n'
+                    if (closure_info.false_shapes_count > 1) code += 'begin\n'
+                }
+
+                while (next_shape !== closure_info.shape && next_shape.figure !== 'End') {
+                    next_shape = NextShape(next_shape, mode)
+                }
+
+                if (mode === 'to code' && closure_info.false_shapes_count > 1) code += 'end;\n'
+
+                return next_shape
+
             } else {
                 if (shape.figure === 'Ref') {
                     let second_shape = shapes.filter(item => item.text === shape.text && item.key !== shape.key)
@@ -153,10 +169,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (link.length > 1) throw new Error('Обнаружено несколько путей из блока, не позволяющего ветвление')
                 link = link[0]
 
-                shape = shapes.find(item => item.key === link.to)
-                if (!shape) throw new Error('Не обнаружен блок "Конец"')
+                next_shape = shapes.find(item => item.key === link.to)
+                if (!next_shape) throw new Error('Не обнаружен блок "Конец"')
 
-                return shape
+                return next_shape
             }
         }
 
@@ -164,52 +180,53 @@ document.addEventListener('DOMContentLoaded', () => {
             let next_shape
             const true_shapes = []
             const false_shapes = []
-            const values = ['Да', 'Нет']
 
-            values.forEach(value => {
-                let link = links.filter(item => item.from === shape.key && item.text?.toUpperCase() === value.toUpperCase())
-                if (link.length === 0) throw new Error(`Не обнаружен путь со значением "${value}"`)
-                if (link.length > 1) throw new Error(`Обнаружено несколько путей со значением "${value}" из одного условия`)
-                link = link[0]
+            let true_link = links.filter(item => item.from === shape.key && item.text?.toUpperCase() === 'ДА')
+            if (true_link.length === 0) throw new Error('Не обнаружен путь со значением "Да"')
+            if (true_link.length > 1) throw new Error('Обнаружено несколько путей со значением "Да" из одного условия')
+            true_link = true_link[0]
 
-                next_shape = shapes.find(item => item.key === link.to)
-                if (!next_shape) throw new Error('Не обнаружен блок "Конец"')
+            next_shape = shapes.find(item => item.key === true_link.to)
+            if (!next_shape) throw new Error('Не обнаружен блок "Конец"')
 
-                while (next_shape.figure !== 'End' && !true_shapes.includes(next_shape.key) && !false_shapes.includes(next_shape.key)) {
-                    if (value === 'Да') true_shapes.push(next_shape.key)
-                    if (value === 'Нет') false_shapes.push(next_shape.key)
-                    next_shape = NextShape(next_shape, false, true)
-                }
-                true_shapes.push(next_shape.key)
-                false_shapes.push(next_shape.key)
-            })
+            while (next_shape.figure !== 'End' && !true_shapes.includes(next_shape) && next_shape !== shape) {
+                true_shapes.push(next_shape)
+                next_shape = NextShape(next_shape, 'get closure')
+            }
+            true_shapes.push(next_shape)
+
+            if (next_shape === shape) {
+                const prev_shape = true_shapes[true_shapes.length - 2]
+
+                shape.flag = 'While'
+                prev_shape.flag = 'WhileEnd'
+            }
+
+            let false_link = links.filter(item => item.from === shape.key && item.text?.toUpperCase() === 'НЕТ')
+            if (false_link.length === 0) throw new Error('Не обнаружен путь со значением "Нет"')
+            if (false_link.length > 1) throw new Error('Обнаружено несколько путей со значением "Нет" из одного условия')
+            false_link = false_link[0]
+
+            next_shape = shapes.find(item => item.key === false_link.to)
+            if (!next_shape) throw new Error('Не обнаружен блок "Конец"')
+
+            while (next_shape.figure !== 'End' && !true_shapes.includes(next_shape) && !false_shapes.includes(next_shape.key) && next_shape !== shape) {
+                false_shapes.push(next_shape)
+                next_shape = NextShape(next_shape, 'get closure')
+            }
+            false_shapes.push(next_shape)
+
+            if (next_shape === shape) {
+                const next_shape = shapes.find(item => item.key === false_link.to)
+
+                next_shape.flag = 'Repeat'
+                shape.flag = 'Until'
+            }
 
             return {
                 shape: next_shape,
-                true_shapes_count: true_shapes.indexOf(next_shape.key),
-                false_shapes_count: false_shapes.indexOf(next_shape.key),
-            }
-        }
-
-        function CheckCicles(shape) {
-            while (shape.figure !== 'End' && !shape.passed) {
-                const next_shape = NextShape(shape, false, true)
-
-                if (next_shape.passed) {
-                    const link = links.find(item => item.from === shape.key && item.to === next_shape.key)
-
-                    if (shape.figure === 'Сondition' && link.text.toUpperCase() === 'НЕТ') {
-                        next_shape.flag = 'Repeat'
-                        shape.flag = 'Until'
-                    } else if (next_shape.figure === 'Сondition') {
-                        next_shape.flag = 'While'
-                        shape.flag = 'WhileEnd'
-                    } else {
-                        throw new Error('Обнаружен неопределённый цикл')
-                    }
-                }
-
-                shape = next_shape
+                true_shapes_count: true_shapes.indexOf(next_shape),
+                false_shapes_count: false_shapes.indexOf(next_shape),
             }
         }
     })

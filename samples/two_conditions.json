@@ -1,0 +1,28 @@
+{ "class": "GraphLinksModel",
+  "linkFromPortIdProperty": "fromPort",
+  "linkToPortIdProperty": "toPort",
+  "nodeDataArray": [
+	{"text":"\u041d\u0430\u0447\u0430\u043b\u043e","figure":"Start","size":"150 60","fill":"#FFFFFF","key":-2,"loc":"-200 -240"},
+	{"text":"n","figure":"Input","size":"150 100","fill":"#FFFFFF","key":-7,"loc":"-200 -120"},
+	{"text":"n > 0","figure":"\u0421ondition","size":"150 100","fill":"#FFFFFF","key":-4,"loc":"-200 10"},
+	{"text":"n = n + 2","figure":"Action","size":"150 100","fill":"#FFFFFF","key":-3,"loc":"-200 160"},
+	{"text":"n = n + 1","figure":"Action","size":"150 100","fill":"#FFFFFF","key":-5,"loc":"10 320"},
+	{"text":"n","figure":"Output","size":"150 100","fill":"#FFFFFF","key":-8,"loc":"-200 440"},
+	{"text":"\u041a\u043e\u043d\u0435\u0446","figure":"End","size":"150 60","fill":"#FFFFFF","key":-9,"loc":"-200 560"},
+	{"text":"n > 10","figure":"\u0421ondition","size":"150 100","fill":"#FFFFFF","key":-10,"loc":"10 10"},
+	{"text":"n = 1","figure":"Action","size":"150 100","fill":"#FFFFFF","key":-11,"loc":"10 160"},
+	{"text":"n = 2","figure":"Action","size":"150 100","fill":"#FFFFFF","key":-12,"loc":"220 10"}
+  ],
+  "linkDataArray": [
+	{"from":-2,"to":-7,"fromPort":"","toPort":"T","points":[-200,-210,-200,-200,-200,-190,-200,-190,-200,-180,-200,-170]},
+	{"from":-7,"to":-4,"fromPort":"","toPort":"T","points":[-200,-70.00000000000001,-200,-60.000000000000014,-200,-55.00000000000001,-200,-55.00000000000001,-200,-50,-200,-40]},
+	{"from":-4,"to":-3,"fromPort":"B","toPort":"T","points":[-200,60,-200,70,-200,85,-200,85,-200,100,-200,110],"text":"\u041d\u0435\u0442"},
+	{"from":-4,"to":-10,"fromPort":"R","toPort":"L","points":[-125,10,-115,10,-95,10,-95,10,-75,10,-65,10],"text":"\u0414\u0430"},
+	{"from":-3,"to":-8,"fromPort":"B","toPort":"T","points":[-200,210,-200,220,-200,300,-200,300,-200,380,-200,390]},
+	{"from":-5,"to":-8,"fromPort":"B","toPort":"T","points":[10,370,10,380,-95,380,-95,380,-200,380,-200,390]},
+	{"from":-8,"to":-9,"fromPort":"","toPort":"T","points":[-200,490,-200,500,-200,510,-200,510,-200,520,-200,530]},
+	{"from":-10,"to":-12,"fromPort":"R","toPort":"L","points":[85,10,95,10,115,10,115,10,135,10,145,10],"text":"\u0414\u0430"},
+	{"from":-10,"to":-11,"fromPort":"B","toPort":"T","points":[10,60,10,70,10,85,10,85,10,100,10,110],"text":"\u041d\u0435\u0442"},
+	{"from":-12,"to":-5,"fromPort":"","toPort":"T","points":[220,60,220,70,220,68,220,68,220,220,10,220,10,260,10,270]},
+	{"from":-11,"to":-5,"fromPort":"","toPort":"T","points":[10,210,10,220,10,240,10,240,10,260,10,270]}
+  ]}

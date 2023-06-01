@@ -1,0 +1,21 @@
+{ "class": "GraphLinksModel",
+  "linkFromPortIdProperty": "fromPort",
+  "linkToPortIdProperty": "toPort",
+  "nodeDataArray": [
+	{"text":"\u041d\u0430\u0447\u0430\u043b\u043e","figure":"Start","size":"150 60","fill":"#FFFFFF","key":-2,"loc":"-150 -130"},
+	{"text":"n = 1","figure":"Action","size":"150 100","fill":"#FFFFFF","key":-3,"loc":"-150 -20"},
+	{"text":"n = n + 1","figure":"Action","size":"150 100","fill":"#FFFFFF","key":-4,"loc":"-150 120"},
+	{"text":"n","figure":"Output","size":"150 100","fill":"#FFFFFF","key":-8,"loc":"-150 500"},
+	{"text":"n > 10","figure":"\u0421ondition","size":"150 100","fill":"#FFFFFF","key":-5,"loc":"-150 370"},
+	{"text":"\u041a\u043e\u043d\u0435\u0446","figure":"End","size":"150 60","fill":"#FFFFFF","key":-9,"loc":"-150 590"},
+	{"text":"n","figure":"Output","size":"150 100","fill":"#FFFFFF","key":-7,"loc":"-150 250"}
+  ],
+  "linkDataArray": [
+	{"from":-2,"to":-3,"fromPort":"","toPort":"T","points":[-150,-100,-150,-90,-150,-85,-150,-85,-150,-80,-150,-70]},
+	{"from":-3,"to":-4,"fromPort":"","toPort":"T","points":[-150,30,-150,40,-150,50,-150,50,-150,60,-150,70]},
+	{"from":-4,"to":-7,"fromPort":"","toPort":"T","points":[-150,170,-150,180,-150,185,-150,185,-150,190,-150,200]},
+	{"from":-7,"to":-5,"fromPort":"","toPort":"T","points":[-150,300,-150,310,-150,310,-150,310,-150,310,-150,320]},
+	{"from":-5,"to":-8,"fromPort":"","toPort":"T","points":[-150,420,-150,430,-150,435,-150,435,-150,440,-150,450],"text":"\u0414\u0430"},
+	{"from":-8,"to":-9,"fromPort":"","toPort":"T","points":[-150,550,-150,560,-150,560,-150,550,-150,550,-150,560]},
+	{"from":-5,"to":-4,"fromPort":"L","toPort":"T","points":[-225,370,-235,370,-235,60,-192.5,60,-150,60,-150,70],"text":"\u041d\u0435\u0442"}
+  ]}
