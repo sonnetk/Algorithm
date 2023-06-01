@@ -77,13 +77,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         function CheckLoops(shape) {
             while (shape.figure !== 'End' && !shape.visited) {
-                const next_shape = NextShape(shape, 'check loops')
+                shape = NextShape(shape, 'check loops')
+            }
 
-                if (next_shape.visited && next_shape.flag !== 'Until') {
-                    throw new Error('Обнаружен неопределённый цикл')
-                }
-
-                shape = next_shape
+            if (shape.visited && shape.flag !== 'Until') {
+                throw new Error('Обнаружен неопределённый цикл')
             }
         }
 
@@ -195,7 +193,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             if (next_shape === shape) {
-                const prev_shape = true_shapes[true_shapes.length - 2]
+                const prev_shape = true_shapes[true_shapes.length - 1]
 
                 shape.flag = 'While'
                 prev_shape.flag = 'WhileEnd'
