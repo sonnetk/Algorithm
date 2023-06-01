@@ -6,16 +6,16 @@ document.addEventListener('DOMContentLoaded', () => {
         let code = ''
 
         try {
-        let start = shapes.filter(item => item.figure === 'Start')
-        if (start.length === 0) throw new Error('Не найден блок "Начало"')
-        if (start.length > 1) throw new Error('Обнаружены несколько блоков "Начало"')
-        let shape = start[0]
+            let start = shapes.filter(item => item.figure === 'Start')
+            if (start.length === 0) throw new Error('Не найден блок "Начало"')
+            if (start.length > 1) throw new Error('Обнаружены несколько блоков "Начало"')
+            let shape = start[0]
 
-        CheckLoops(shape)
+            CheckLoops(shape)
 
-        Translate(shape)
+            Translate(shape)
 
-        ace.edit('editorCode').setValue(code)
+            ace.edit('editorCode').setValue(code)
 
         } catch (error) {
             alert(error.message);
@@ -193,14 +193,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 true_shapes.push(next_shape)
                 next_shape = NextShape(next_shape, 'get closure')
             }
-            true_shapes.push(next_shape)
 
             if (next_shape === shape) {
                 const prev_shape = true_shapes[true_shapes.length - 2]
 
                 shape.flag = 'While'
                 prev_shape.flag = 'WhileEnd'
+            } else if (true_shapes.includes(next_shape)) {
+                throw new Error('Обнаружен неопределённый цикл')
             }
+
+            true_shapes.push(next_shape)
 
             let false_link = links.filter(item => item.from === shape.key && item.text?.toUpperCase() === 'НЕТ')
             if (false_link.length === 0) throw new Error('Не обнаружен путь со значением "Нет"')
@@ -210,19 +213,21 @@ document.addEventListener('DOMContentLoaded', () => {
             next_shape = shapes.find(item => item.key === false_link.to)
             if (!next_shape) throw new Error('Не обнаружен блок "Конец"')
 
-            while (next_shape.figure !== 'End' && !true_shapes.includes(next_shape) && !false_shapes.includes(next_shape.key) && next_shape !== shape) {
+            while (next_shape.figure !== 'End' && !true_shapes.includes(next_shape) && !false_shapes.includes(next_shape) && next_shape !== shape) {
                 false_shapes.push(next_shape)
                 next_shape = NextShape(next_shape, 'get closure')
             }
-            false_shapes.push(next_shape)
 
             if (next_shape === shape) {
                 const next_shape = shapes.find(item => item.key === false_link.to)
 
                 next_shape.flag = 'Repeat'
                 shape.flag = 'Until'
+            } else if (false_shapes.includes(next_shape)) {
+                throw new Error('Обнаружен неопределённый цикл')
             }
 
+            false_shapes.push(next_shape)
             return {
                 shape: next_shape,
                 true_shapes_count: true_shapes.indexOf(next_shape),
