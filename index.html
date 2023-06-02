@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <script src="form.js"></script>
+    <!--<script src="form.js"></script>-->
     <!-- файлы для ACE-->
     <script src="ace/src-min/ace.js"></script>
     <!-- мой файл для ACE-->
@@ -17,6 +17,12 @@
     <!-- мой файл для GoJS-->
     <script src="go/figure.js"></script>
     <script src="script.js"></script>
+    <!-- файлы для перевода-->
+    <link href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css" rel="stylesheet">
+    <link href="variables.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <script src="variables.js"></script>
     <script src="translation.js"></script>
 </head>
 <body>
@@ -77,6 +83,11 @@
                 </div>
             </form>
         </div>
+
+        <div class="variables-container" style="display: none">
+            <button class="add-variable">Добавить переменную</button>
+        </div>
+
         <div id="pascal">
             <p>Программный код — Pascal</p>
             <div id="code">
