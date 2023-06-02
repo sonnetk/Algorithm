@@ -11,6 +11,8 @@ document.addEventListener('DOMContentLoaded', () => {
             if (start.length > 1) throw new Error('Обнаружены несколько блоков "Начало"')
             let shape = start[0]
 
+            GetVariables()
+
             CheckLoops(shape)
 
             Translate(shape)
@@ -19,6 +21,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
         } catch (error) {
             alert(error.message);
+        }
+
+        function GetVariables() {
+            const variable_rows = document.querySelectorAll('.variable-row')
+            if (variable_rows.length) {
+                code += 'var\n'
+                variable_rows.forEach(row => {
+                    const variable_name = row.querySelector('.variable-name').value
+                    const variable_type = row.querySelector('.variable-type').value
+                    code += `${variable_name}: ${variable_type};\n`
+                })
+            }
         }
 
         function ShapeToCode(shape) {
