@@ -19,14 +19,11 @@ document.addEventListener('DOMContentLoaded', function () {
             // Set language
             codeEditor.session.setMode("ace/mode/pascal");
 
-            // Set Options
-            codeEditor.setOptions({
-                enableLiveAutocompletion: true,
-            });
-
-            // Set Default Code
-            codeEditor.setValue(defaultCode);
-
+            // // Set Options
+            // codeEditor.setOptions({
+            //     enableBasicAutocompletion: true,
+            //     enableLiveAutocompletion: true,
+            // });
         }
     }
 
