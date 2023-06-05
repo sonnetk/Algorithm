@@ -24,13 +24,14 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         function GetVariables() {
-            const variable_rows = document.querySelectorAll('.variable-row')
-            if (variable_rows.length) {
+            const variable_types = new Set(Array.from(document.querySelectorAll('.variable-type')).map(item => item.value))
+            if (variable_types.size) {
                 code += 'var\n'
-                variable_rows.forEach(row => {
-                    const variable_name = row.querySelector('.variable-name').value
-                    const variable_type = row.querySelector('.variable-type').value
-                    code += `${variable_name}: ${variable_type};\n`
+                variable_types.forEach(type => {
+                    const names = Array.from(document.querySelectorAll('.variable-type'))
+                        .filter(item => item.value === type)
+                        .map(item => item.closest('.variable-row').querySelector('.variable-name').value)
+                    code += `${names.join(', ')}: ${type};\n`
                 })
             }
         }
