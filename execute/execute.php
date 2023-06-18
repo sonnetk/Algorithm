@@ -6,16 +6,19 @@ if (!is_dir('temp')) {
     mkdir('temp');
 }
 
-file_put_contents('temp\program.pas', $code);
-file_put_contents('temp\input.txt', $input);
+if (stripos(php_uname(), 'windows') !== false) {
+    file_put_contents('temp\program.pas', $code);
+    file_put_contents('temp\input.txt', $input);
 
-if (stripos(php_uname(), 'win') !== false) {
     shell_exec('chcp 65001');
     $compilation_output = shell_exec('fpc .\temp\program.pas');
     $execution_output = shell_exec('type .\temp\input.txt | .\temp\program');
 } else {
-    $compilation_output = shell_exec('fpc .\temp\program.pas');
-    $execution_output = shell_exec('cat .\temp\input.txt | .\temp\program');
+    file_put_contents('temp/program.pas', $code);
+    file_put_contents('temp/input.txt', $input);
+
+    $compilation_output = shell_exec('fpc ./temp/program.pas');
+    $execution_output = shell_exec('cat ./temp/input.txt | ./temp/program');
 }
 
 $json = [
