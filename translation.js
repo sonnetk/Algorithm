@@ -50,6 +50,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     .replace('=', ':=')
                     .replace('::=', ':=')
                     .replace(';', '')
+                    .replace('!=', '<>')
+                    .replace('≤', '<=')
+                    .replace('≥', '>=')
                     .replace('\n', ';\n')
                 code += `${text};\n`
             } else if (shape.figure === 'Input') {

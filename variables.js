@@ -1,6 +1,16 @@
 $(() => {
-    $('#formVariables').hide()
-    $('.variables-container').show()
+
+    $('.variables-container').hover(function(){
+            $('.add-variable').css('display','block');
+            $('.variable-row').css('display','flex');
+            $('.var').css('display','none');
+        },
+        function(){
+            $('.add-variable, .variable-row').css('display','none');
+            $('.var').css('display','block');
+        });
+
+
 
     $(document).on('click', '.add-variable', function () {
         $(this).before(`
@@ -25,4 +35,5 @@ $(() => {
     $(document).on('click', '.remove-variable', function () {
         $(this).parent().remove()
     })
+
 })

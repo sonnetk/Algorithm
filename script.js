@@ -262,26 +262,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 )
             );
 
-        // myDiagram.nodeTemplateMap.add("End", //нередактируемый END
-        //     $(go.Node, "End",
-        //         new go.Binding("location", "loc", go.Point.parse).makeTwoWay(go.Point.stringify),
-        //         $(go.Shape, "End",
-        //             {
-        //                 fill: "white",
-        //                 stroke: "black",
-        //                 margin: 2,
-        //                 fromLinkable: true, fromLinkableSelfNode: true, fromLinkableDuplicates: true,
-        //                 toLinkable: true, toLinkableSelfNode: true, toLinkableDuplicates: true,
-        //                 cursor: "pointer"
-        //             }),
-        //         $(go.TextBlock, "End",
-        //             {
-        //                 font: "9pt helvetica, arial, sans-serif",
-        //                 stroke: "black"
-        //             })
-        //     )
-        // );
-
 
         load();  //загрузить исходную диаграмму из некоторого текста JSON
 
@@ -330,7 +310,6 @@ document.addEventListener('DOMContentLoaded', function () {
                         {text: "Вывод", figure: "Output", "size": "150 100", fill: "#FFFFFF"},
                         {text: "Конец", figure: "End", "size": "150 60", fill: "#FFFFFF"},
                         {text: "1", figure: "Ref", "size": "60 60", fill: "#FFFFFF"},
-                        // {"category":"End"}
                     ], [
                         // Палитра также имеет отключенную ссылку, которую пользователь может перетащить
                         {points: new go.List(/*go.Point*/).addAll([new go.Point(0, 0), new go.Point(30, 0), new go.Point(30, 40), new go.Point(60, 40)])}

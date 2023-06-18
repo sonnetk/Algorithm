@@ -6,7 +6,6 @@
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <!--<script src="form.js"></script>-->
     <!-- файлы для ACE-->
     <script src="ace/src-min/ace.js"></script>
     <!-- мой файл для ACE-->
@@ -30,7 +29,7 @@
 <header>
     <nav>
         <ul>
-            <li><a>Тренажер</a></li>
+            <li><a>Algolearn</a></li>
         </ul>
     </nav>
 </header>
@@ -69,23 +68,18 @@
         </div>
     </div>
     <div id="action">
-        <div id="formVariables">
-            <form autocomplete="off" id="parent">
-                <div class="form">
-                    <div>
-                        <label for="vName">Имя переменной:</label><br>
-                        <input id="vName" name="vName" placeholder="i" type="text"><br>
-                        <label for="vType">Тип переменной:</label><br>
-                        <div class="autocomplete">
-                            <input id="vType" name="vType" placeholder="integer" type="text">
-                        </div>
-                    </div>
-                    <button id="plus"> +</button>
-                </div>
+        <div id="formValue">
+            <p>Введите значения</p>
+            <form>
+                <label for="Value"></label><br>
+                <input id="Value" name="Value" type="text">
+                <input id="Value" name="Value" type="text"><br>
             </form>
+            <button id="toValue">Готово</button>
         </div>
 
-        <div class="variables-container" style="display: none">
+        <div class="variables-container">
+            <button class="var">VAR</button>
             <button class="add-variable">Добавить переменную</button>
         </div>
 

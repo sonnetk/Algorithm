@@ -1,6 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
     const executeCodeBtn = document.querySelector('.editor__run');
-    const resetCodeBtn = document.querySelector('.editor__reset');
 
 // Setup Ace
     let codeEditor = ace.edit("editorCode");
