@@ -3,10 +3,12 @@ $(() => {
     $('.variables-container').hover(function(){
             $('.add-variable').css('display','block');
             $('.variable-row').css('display','flex');
+            $('.variables-container').css('background-color','white');
             $('.var').css('display','none');
         },
         function(){
             $('.add-variable, .variable-row').css('display','none');
+            $('.variables-container').css('background-color','transparent');
             $('.var').css('display','block');
         });
 
