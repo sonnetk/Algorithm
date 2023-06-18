@@ -4,7 +4,7 @@ $(() => {
             url: 'execute/execute.php',
             data: {
                 code: ace.edit('editorCode').getValue(),
-                input: '',
+                input: $('#editor-input').val(),
             },
             dataType: 'JSON',
             success: response => {

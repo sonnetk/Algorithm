@@ -2,3 +2,22 @@
     color: grey;
     font-size: 10px;
 }
+
+.editor-input__label {
+    color: #9eaeea;
+    display: block;
+    font-size: 16px;
+    margin: 16px 0;
+    text-align: center;
+}
+
+#editor-input {
+    border-bottom: 1px solid #B8C6F6;
+    border-left: none;
+    border-right: none;
+    border-top: 1px solid #B8C6F6;
+    height: 60px;
+    outline: none;
+    resize: none;
+    width: 295px;
+}
