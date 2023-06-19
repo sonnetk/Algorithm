@@ -1,11 +1,69 @@
-.variables-container {
-    font-family: "Inter-Bold", sans-serif;
-    left: 220px;
-    padding: 10px;
+@font-face {
+    font-weight: 700;
+    font-family: "Inter-Bold";
+    src: url("fonts/Inter-Bold.ttf");
+}
+
+@font-face {
+    font-weight: 400;
+    font-family: "Inter-Light";
+    src: url("fonts/Inter-Light .ttf");
+}
+
+.var{
     position: absolute;
-    top: 100px;
+    bottom: 4%;
+    left: 36%;
+    z-index: 3;
+    background: #CEDEFD;
+    color: #0A5AF4;
+    display: flex;
+}
+.var:hover{
+    background: #0742B4;
+    color: #FFFFFF;
+}
+.var.active{
+    background: #0A5AF4;
+    color: #FFFFFF;
+}
+.var.active:hover{
+    background: #0742B4;
+    color: #FFFFFF;
+}
+svg {
+    fill: #0A5AF4;
+}
+.var:hover svg {
+    fill: #FFFFFF;
+}
+.var.active svg {
+    fill: #FFFFFF;
+}
+.var.active:hover svg {
+    fill: #FFFFFF;
+}
+
+.variables-container {
+    display: none;
+
+}
+
+.variables-container.active {
+    display: flex;
+    flex-direction: column;
+
+    bottom: 4%;
+    left: 48%;
+    position: absolute;
     z-index: 4;
-    border-radius: 20px;
+
+    padding: 16px;
+    gap: 16px;
+    background: #FAFAFA;
+    border: 1px solid #E7E7E7;
+    box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
 }
 
 .variable-row {
@@ -13,11 +71,34 @@
     display: flex;
 }
 
+.variable-row input {
+    outline: none;
+    gap: 8px;
+    width: 210.5px;
+    height: 48px;
+
+    background: #FAFAFA;
+    border: 1px solid #E7E7E7;
+    border-radius: 8px;
+
+    font-family: "Inter-Light";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 20px;
+
+    color: #000000;
+    margin-right: 16px;
+    margin-top: 0;
+    padding: 0 16px;
+}
+
+
+
 .variable-label {
     display: flex;
     flex-direction: column;
     font-size: 14px;
-    margin: 5px;
 }
 
 .variable-input {
@@ -31,18 +112,31 @@
 }
 
 .remove-variable {
-    cursor: pointer;
-    height: 40px;
+    padding: 12px;
+    gap: 8px;
+    width: 48px;
+    height: 48px;
+    background: #E7E7E7;
+    border-radius: 8px;
     margin-left: 5px;
-    padding: 0;
-    width: 40px;
+}
+.remove-variable svg{
+    fill: #6D6D6D;
+}
+.remove-variable:hover svg{
+    fill: #FFFFFF;
 }
 
 .add-variable {
-    display: none;
-    font-size: 14px;
+    font-family: "Inter-Bold", sans-serif;
+    font-size: 16px;
+    line-height: 20px;
+    color: #0A5AF4;
+    cursor: pointer;
     margin: 5px 0;
-    width: 100%;
+}
+.add-variable:hover{
+    color: #0742B4;
 }
 
 .ui-autocomplete {

@@ -32,7 +32,7 @@
 <header>
     <nav>
         <ul>
-            <li><a>Algolearn</a></li>
+            <li><img src="img/Algolearn.svg"></li>
         </ul>
     </nav>
 </header>
@@ -81,28 +81,30 @@
         <!--            <button id="toValue">Готово</button>-->
         <!--        </div>-->
 
+        <button class="var">Переменные <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M8.28993 5.63989L1.92993 11.9999L8.28993 18.3599L9.70993 16.9499L4.75993 11.9999L9.70993 7.04989L8.28993 5.63989ZM14.2899 7.04989L19.2399 11.9999L14.2899 16.9499L15.7099 18.3599L22.0699 11.9999L15.7099 5.63989L14.2899 7.04989Z"/>
+        </svg></button>
         <div class="variables-container">
-            <button class="var">Переменные</button>
-            <button class="add-variable">Добавить переменную</button>
+            <a class="add-variable">Добавить переменную</a>
         </div>
 
         <div id="pascal">
-            <p>Программный код — Pascal</p>
             <div id="code">
                 <div class="editor">
                     <div class="editor__wrapper">
                         <div class="editor__body">
                             <div class="editor__code" id="editorCode"></div>
                         </div>
+                        <div class="editor-input__container">
+                            <label class="editor-input__label" for="editor-input"></label>
+                            <textarea placeholder="Введите данные" id="editor-input"></textarea>
+                        </div>
                         <div class="editor__footer">
                             <div class="editor__footer--left">
-                                <button class="editor__bnt editor__run">Запустить</button>
+                                <button class="editor__bnt editor__run">Запустить программу</button>
                             </div>
                         </div>
-                        <div class="editor-input__container">
-                            <label class="editor-input__label" for="editor-input">Ввод данных</label>
-                            <textarea id="editor-input"></textarea>
-                        </div>
+                        <hr>
                         <div class="editor__footer--right">
                             <p>Результат</p>
                             <div class="editor__console">

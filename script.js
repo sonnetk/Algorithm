@@ -300,7 +300,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         ),
 
                     model: new go.GraphLinksModel([  // указать содержимое палитры
-                        {figure: "Spot", "size": "105 75", fill: "transparent"}, //спустить все элементы, чтобы скрыть надпись
+                        {figure: "Spot", "size": "105 90", fill: "transparent"}, //спустить все элементы, чтобы скрыть надпись
                         {text: "Начало", figure: "Start", "size": "150 60", fill: "#FFFFFF"},
                         {text: "Действие", figure: "Action", "size": "150 100", fill: "#FFFFFF"},
                         {text: "Условие", figure: "Сondition", "size": "150 100", fill: "#FFFFFF"},
